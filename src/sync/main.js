@@ -1,0 +1,39 @@
+const fs = require("fs")
+
+const { readRaw } = require("../utils/data")
+const { resizeImage } = require("../utils/resizer")
+
+async function processImages(directory, files) {
+  try {
+    for (const file of files) {
+      await resizeImage(file, [24, 24], `${directory}/${Date.now()}-24x24.png`)
+      await resizeImage(file, [64, 64], `${directory}/${Date.now()}-64x64.png`)
+    }
+  } catch (ex) {
+    throw ex
+  }
+}
+
+async function main() {
+  try {
+    console.log("Reading raw files")
+    const files = await readRaw()
+    console.log("Finished reading raw files")
+
+    const directory = __dirname + "/../../data/clean/" + Date.now()
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory)
+    }
+
+    console.log("Started process of resizing images")
+    const start = Date.now()
+    await processImages(directory, files)
+    const end = Date.now()
+    console.log("Completed process of resizing images")
+    console.log("Resizing took: " + (end - start) + "ms")
+  } catch (ex) {
+    console.log("FATAL ERROR: " + ex)
+  }
+}
+
+main()

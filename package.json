@@ -1,0 +1,11 @@
+{
+  "name": "demo-node-workers",
+  "version": "1.0.0",
+  "description": "Demo showing sync performance vs node-workers when resizing images",
+  "main": "index.js",
+  "author": "Mike Dedys <mikededys@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.25.4"
+  }
+}
