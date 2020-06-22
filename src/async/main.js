@@ -1,40 +1,33 @@
-const { Worker } = require("worker_threads")
 const fs = require("fs")
 
 const { readRaw } = require("../utils/data")
-
-const MAX_THREADS = 2
-
-function resizeImage(path, output) {
-  return new Promise((resolve, reject) => {
-    const worker = new Worker(__dirname + "/worker.js", {
-      workerData: { output, path },
-    })
-
-    worker.on("message", resolve)
-
-    worker.on("error", reject)
-
-    worker.on("exit", (code) => {
-      if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`))
-    })
-  })
-}
+const { resizeImage } = require("../utils/resizer")
 
 async function processImages(directory, files) {
-  const threads = []
-
-  for (const file of files) {
-    threads.push(
-      resizeImage(
-        __dirname + `/../../data/raw/${file[0]}`,
-        `${directory}/${Date.now()}-${file[0]}`
+  try {
+    const workers = []
+    for (const file of files) {
+      workers.push(
+        resizeImage(
+          file[1],
+          [24, 24],
+          `${directory}/${Date.now()}-${file[0]}-24x24.png`
+        )
       )
-    )
-  }
+      workers.push(
+        resizeImage(
+          file[1],
+          [64, 64],
+          `${directory}/${Date.now()}-${file[0]}-64x64.png`
+        )
+      )
+    }
 
-  const results = await Promise.all(threads)
-  console.log("COMPLETED: ", results)
+    await Promise.all(workers)
+    return
+  } catch (ex) {
+    throw ex
+  }
 }
 
 async function main() {
