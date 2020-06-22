@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Mike Dedys <mikededys@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "run:sync": "node ./src/sync/main.js"
+  },
   "dependencies": {
     "sharp": "^0.25.4"
   }

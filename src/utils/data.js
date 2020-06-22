@@ -9,7 +9,7 @@ function read(directory) {
 
       const streams = files.map((file) => {
         const stream = fs.readFileSync(`${directory}/${file}`)
-        return stream
+        return [file, stream]
       })
 
       resolve(streams)
