@@ -6,7 +6,10 @@
   "author": "Mike Dedys <mikededys@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "run:sync": "node ./src/sync/main.js"
+    "run:resizer:sync": "node ./src/sync-image-resizer/main.js",
+    "run:resizer:async": "node ./src/async-image-resizer/main.js",
+    "run:resizer:workers": "node ./src/node-workers-images-resizer/main.js",
+    "run:file-uploader:sync": "node ./src/fake-file-uploader/main.js"
   },
   "dependencies": {
     "sharp": "^0.25.4"
