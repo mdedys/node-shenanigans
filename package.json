@@ -12,6 +12,6 @@
     "run:file-uploader:sync": "node ./src/fake-file-uploader/main.js"
   },
   "dependencies": {
-    "sharp": "^0.25.4"
+    "sharp": "^0.30.5"
   }
 }
